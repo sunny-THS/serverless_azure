@@ -12,8 +12,8 @@
   ],
   "dependencies": {
     "dotenv": "^16.0.3",
-    "mssql": "^9.0.1",
-    "tedious": "^15.1.2"
+    "fs": "^0.0.1-security",
+    "mysql": "^2.18.1"
   },
   "devDependencies": {
     "serverless-azure-functions": "^2.0.0"

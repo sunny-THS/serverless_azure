@@ -25,7 +25,7 @@ provider:
   prefix: "leedino"  # prefix of generated resource name
   # subscriptionId: 65cbaba6-e66e-43ec-8de9-17e276caa638
   # stage: app
-  # type: premium  # premium azure functions
+  # type: standard  # premium azure functions
 
   # environment: # these will be created as application settings
   #   VARIABLE_FOO: 'foo'
@@ -79,7 +79,21 @@ functions:
       - http: true
         methods:
           - GET
-        authLevel: anonymous # can also be `function` or `admin`
+        authLevel: anonymous
+  login:
+    handler: src/handlers/handle.login
+    events:
+      - http: true
+        methods:
+          - POST
+        authLevel: anonymous
+  register:
+    handler: src/handlers/handle.register
+    events:
+      - http: true
+        methods:
+          - POST
+        authLevel: anonymous
 
   # goodbye:
   #   handler: src/handlers/goodbye.sayGoodbye

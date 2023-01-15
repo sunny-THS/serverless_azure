@@ -7,6 +7,7 @@ module.exports.sayHello = async (context, req) => {
   let db;
   try {
     db = await getDb(context);
+    context.log('db----', db);
   } catch (error) {
     context.log('hello', error);
   }
@@ -15,7 +16,7 @@ module.exports.sayHello = async (context, req) => {
     context.res = {
       // status: 200, /* Defaults to 200 */
       body: {
-        message: 'Helo ' + (req.query.name || req.body.name),
+        message: 'Hello ' + (req.query.name || req.body.name),
         db: db,
         hi: 'hi'
       }

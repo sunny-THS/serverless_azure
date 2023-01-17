@@ -94,6 +94,20 @@ functions:
         methods:
           - POST
         authLevel: anonymous
+  setSelfLocate:
+    handler: src/handlers/handle.setSelfLocate
+    events:
+      - http: true
+        methods:
+          - POST
+        authLevel: anonymous
+  getLocates:
+    handler: src/handlers/handle.getLocates
+    events:
+      - http: true
+        methods:
+          - GET
+        authLevel: anonymous
 
   # goodbye:
   #   handler: src/handlers/goodbye.sayGoodbye

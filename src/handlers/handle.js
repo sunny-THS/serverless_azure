@@ -3,6 +3,7 @@ if (process.env.NODE_ENV !== 'production')
 const { login } = require("../controllers/login");
 const { register } = require("../controllers/register");
 const { getLocates, setSelfLocate } = require("../controllers/locate");
+const { getAreaDelimitation, setAreaDelimitation } = require("../controllers/areaDelimitation");
 
 const handle = {
     register: async (context, req) => {
@@ -58,7 +59,7 @@ const handle = {
         }
     },
 
-    getLocates: async (context, req) => {
+    getLocates: async (context, _) => {
         context.log('======= getLocates =======');
         
         let locates;
@@ -116,6 +117,56 @@ const handle = {
             };
         } catch (error) {
             context.log('-------------- error setSelfLocate: ', error);
+            context.res = {
+                status: 400,
+                body: {
+                    message: error
+                }
+            }
+        }
+    },
+    getAreaDelimitation: async (context, _) => {
+        context.log('======= getAreaDelimitation =======');
+        
+        let areaDelimitation;
+        try {
+            areaDelimitation = await getAreaDelimitation(context);
+            context.log('getAreaDelimitation ----', areaDelimitation);
+
+            context.res = {
+                // status: 200, /* Defaults to 200 */
+                body: {
+                    areaDelimitation: areaDelimitation,
+                }
+            };
+        } catch (error) {
+            context.log('-------------- error getAreaDelimitation: ', error);
+            context.res = {
+                status: 400,
+                body: {
+                    message: error
+                }
+            }
+        }
+    },
+    setAreaDelimitation: async (context, req) => {
+        context.log('======= setAreaDelimitation =======');
+
+        const {
+            user_id, status, coordinateDetails
+        } = req.body;
+
+        try {
+            await setAreaDelimitation(context, user_id, status, coordinateDetails);
+
+            context.res = {
+                // status: 200, /* Defaults to 200 */
+                body: {
+                    message: "OK"
+                }
+            };
+        } catch (error) {
+            context.log('-------------- error setAreaDelimitation: ', error);
             context.res = {
                 status: 400,
                 body: {

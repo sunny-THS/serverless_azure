@@ -16,7 +16,7 @@ const lacateController = {
     getSelfLocates: async (context, user_id) => {
         let locates;
         try {
-            locates = await getSelfLocates(user_id);
+            locates = await getSelfLocates(context, user_id);
         } catch (error) {
             context.log('err getLocates', error)
             throw new Error(error);

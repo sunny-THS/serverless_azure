@@ -10,7 +10,7 @@ const coordinatesDB = {
             connectDB.query(
                 sql,
                 (err, result) => {
-                    return err ? reject(err) : resolve(result[0]);
+                    return err ? reject(err) : resolve(result);
                 }
             );
         });

@@ -1,7 +1,7 @@
 const { connectDB } = require('./init');
 
 const locates = {
-    getSelfLocates: (user_id) => {
+    getSelfLocates: (context, user_id) => {
         let sql = `
             select * from locate
             where user_id = ${user_id}
@@ -11,7 +11,7 @@ const locates = {
             connectDB.query(
                 sql,
                 (err, result) => {
-                    return err ? reject(err) : resolve(result[0]);
+                    return err ? reject(err) : resolve(result);
                 }
             );
         });

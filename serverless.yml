@@ -108,6 +108,20 @@ functions:
         methods:
           - GET
         authLevel: anonymous
+  getAreaDelimitation:
+    handler: src/handlers/handle.getAreaDelimitation
+    events:
+      - http: true
+        methods:
+          - GET
+        authLevel: anonymous
+  setAreaDelimitation:
+    handler: src/handlers/handle.setAreaDelimitation
+    events:
+      - http: true
+        methods:
+          - POST
+        authLevel: anonymous
 
   # goodbye:
   #   handler: src/handlers/goodbye.sayGoodbye

@@ -33,10 +33,10 @@ const areaDelimitationDB = {
             );
         });
     },
-    setAreaDelimitation: (context, id, user_id, status) => {
+    setAreaDelimitation: (context, id, user_id, name, provider, note, status, genotype) => {
         let sql = `
-            insert area_delimitation(id, user_id, \`status\`)
-            values ('${id}', ${user_id}, ${status})
+            insert area_delimitation(id, user_id, \`status\`, genotype, name, provider, note)
+            values ('${id}', ${user_id}, ${status}, '${genotype}', '${name}', '${provider}', '${note}')
         `;
         context.log(sql)
         return new Promise((resolve, reject) => {
@@ -56,6 +56,36 @@ const areaDelimitationDB = {
         let sql = `
             insert detail_delimitation(area_delimitation_id, coordinates_id, sort)
             values ${dataSql}
+        `;
+        context.log(sql)
+        return new Promise((resolve, reject) => {
+            connectDB.query(
+                sql,
+                (err, result) => {
+                    return err ? reject(err) : resolve(result);
+                }
+            );
+        });
+    },
+    deleteAreaDelimitation: (context, area_delimitation_id,) => {
+        let sql = `
+            delete from area_delimitation
+            where id = '${area_delimitation_id}'
+        `;
+        context.log(sql)
+        return new Promise((resolve, reject) => {
+            connectDB.query(
+                sql,
+                (err, result) => {
+                    return err ? reject(err) : resolve(result);
+                }
+            );
+        });
+    },
+    deleteDetailDelimitation: (context, area_delimitation_id,) => {
+        let sql = `
+            delete from detail_delimitation
+            where area_delimitation_id = '${area_delimitation_id}'
         `;
         context.log(sql)
         return new Promise((resolve, reject) => {

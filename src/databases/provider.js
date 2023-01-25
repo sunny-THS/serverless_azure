@@ -1,9 +1,26 @@
 const { connectDB } = require('./init');
 
-const coordinatesDB = {
-    getCoordinates: (context) => {
+const providerDB = {
+    checkProviderExists: (context, name) => {
         let sql = `
-            select * from coordinates
+            select * 
+            from provider
+            where \`name\` = '${name}'
+        `;
+        context.log(sql)
+        return new Promise((resolve, reject) => {
+            connectDB.query(
+                sql,
+                (err, result) => {
+                    return err ? reject(err) : resolve(result[0]);
+                }
+            );
+        });
+    },
+    getProvider: (context) => {
+        let sql = `
+            select * 
+            from provider
         `;
         context.log(sql)
         return new Promise((resolve, reject) => {
@@ -15,36 +32,21 @@ const coordinatesDB = {
             );
         });
     },
-    setCoordinate: (context, id, latitude, longitude) => {
+    createNewProvider: (context, name) => {
         let sql = `
-            insert coordinates(id, latitude, longitude)
-            values('${id}', '${latitude}', '${longitude}')
+            insert provider(\`name\`)
+            values ('${name}')
         `;
         context.log(sql)
         return new Promise((resolve, reject) => {
             connectDB.query(
                 sql,
                 (err, result) => {
-                    return err ? reject(err) : resolve(result[0]);
+                    return err ? reject(err) : resolve(result);
                 }
             );
         });
     },
-    deleteCoordinate: (context, list_id) => {
-        let sql = `
-            delete from coordinates
-            where ${list_id}
-        `;
-        context.log(sql)
-        return new Promise((resolve, reject) => {
-            connectDB.query(
-                sql,
-                (err, result) => {
-                    return err ? reject(err) : resolve(result[0]);
-                }
-            );
-        });
-    }
 };
 
-module.exports = coordinatesDB;
+module.exports = providerDB;

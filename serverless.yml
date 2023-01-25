@@ -122,6 +122,41 @@ functions:
         methods:
           - POST
         authLevel: anonymous
+  getGenotypes:
+    handler: src/handlers/handle.getGenotypes
+    events:
+      - http: true
+        methods:
+          - GET
+        authLevel: anonymous
+  getProvider:
+    handler: src/handlers/handle.getProvider
+    events:
+      - http: true
+        methods:
+          - GET
+        authLevel: anonymous
+  setProvider:
+    handler: src/handlers/handle.setProvider
+    events:
+      - http: true
+        methods:
+          - POST
+        authLevel: anonymous
+  deleteSelfLocate:
+    handler: src/handlers/handle.deleteSelfLocate
+    events:
+      - http: true
+        methods:
+          - POST
+        authLevel: anonymous
+  deleteAreaDelimitation:
+    handler: src/handlers/handle.deleteAreaDelimitation
+    events:
+      - http: true
+        methods:
+          - POST
+        authLevel: anonymous
 
   # goodbye:
   #   handler: src/handlers/goodbye.sayGoodbye

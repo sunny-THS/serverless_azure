@@ -16,12 +16,43 @@ const locates = {
             );
         });
     },
-    getLocates: (context) => {
+    getLocate: (context, id) => {
         let sql = `
             select * 
+            from locate
+            where id = ${id}
+        `;
+        context.log(sql)
+        return new Promise((resolve, reject) => {
+            connectDB.query(
+                sql,
+                (err, result) => {
+                    return err ? reject(err) : resolve(result[0]);
+                }
+            );
+        });
+    },
+    getLocates: (context) => {
+        let sql = `
+            select locate.*, coordinates.latitude, coordinates.longitude, users.name, users.email
             from locate join coordinates
                 on locate.coordinates_id = coordinates.id join users
                 on users.id = locate.user_id
+        `;
+        context.log(sql)
+        return new Promise((resolve, reject) => {
+            connectDB.query(
+                sql,
+                (err, result) => {
+                    return err ? reject(err) : resolve(result);
+                }
+            );
+        });
+    },
+    deleteLocates: (context, id) => {
+        let sql = `
+            delete from locate 
+            where id = ${id}
         `;
         context.log(sql)
         return new Promise((resolve, reject) => {

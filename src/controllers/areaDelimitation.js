@@ -1,5 +1,6 @@
 const { getAreaDelimitation, getDetailDelimitation, setAreaDelimitation, setDetailDelimitation } = require('../databases/areaDelimitation');
 const { getCoordinates, setCoordinate } = require('../databases/coordinates');
+const { getUser } = require('../databases/users');
 
 const areaDelimitationController = {
     getAreaDelimitation: async (context) => {
@@ -7,19 +8,27 @@ const areaDelimitationController = {
         try {
             let areaDelimitation = await getAreaDelimitation(context);
             let coor = await getCoordinates(context);
-
             result = await Promise.all(
                 areaDelimitation.map(async area => {
+                    let user = await getUser(context, area.user_id);
                     return {
                         id: `${area.id}`,
-                        user_id: `${area.user_id}`,
+                        userInfo: {
+                            name: `${user.name}`,
+                            email: `${user.email}`,
+                        },
+                        provider: area.provider,
+                        name: area.name,
+                        note: area.note,
                         status: `${area.status}`,
+                        genotype: `${area.genotype}`,
                         detail: (await getDetailDelimitation(context, area.id))
                             .map(detailDelimitation => {
                                 let locate = coor.filter(c => c.id == detailDelimitation.coordinates_id)[0];
                                 return {
                                     sort: `${detailDelimitation.sort}`,
                                     coordinate: {
+                                        id: `${locate.id}`,
                                         latitude: `${locate.latitude}`, 
                                         longitude: `${locate.longitude}`
                                     },
@@ -34,12 +43,12 @@ const areaDelimitationController = {
         }
         return result;
     },
-    setAreaDelimitation: async (context, user_id, status, coordinateDetails) => {
+    setAreaDelimitation: async (context, user_id, name, provider, note, status, genotype, coordinateDetails) => {
         try {
             let rand = `${Date.now().toString().substr(7, 6)}${Math.floor(Math.random() * (99 - 10) + 10)}`;
             let areaDelimitation_id = `a${rand}`;
 
-            await setAreaDelimitation(context, areaDelimitation_id, user_id, status);
+            await setAreaDelimitation(context, areaDelimitation_id, user_id, name, provider, note, status, genotype);
 
             let details = [];
 

@@ -1,6 +1,7 @@
 const { getAreaDelimitation, getDetailDelimitation, setAreaDelimitation, setDetailDelimitation } = require('../databases/areaDelimitation');
 const { getCoordinates, setCoordinate } = require('../databases/coordinates');
 const { getUser } = require('../databases/users');
+const { formatDate, formatDateYMD } = require('./common');
 
 const areaDelimitationController = {
     getAreaDelimitation: async (context) => {
@@ -22,6 +23,8 @@ const areaDelimitationController = {
                         note: area.note,
                         status: `${area.status}`,
                         genotype: `${area.genotype}`,
+                        create_at: `${formatDate(new Date(area.created_at))}`,
+                        dateOfPlanting: `${formatDateYMD(new Date(area.dateOfPlanting == null ? area.created_at : area.dateOfPlanting ))}`,
                         detail: (await getDetailDelimitation(context, area.id))
                             .map(detailDelimitation => {
                                 let locate = coor.filter(c => c.id == detailDelimitation.coordinates_id)[0];
@@ -43,12 +46,12 @@ const areaDelimitationController = {
         }
         return result;
     },
-    setAreaDelimitation: async (context, user_id, name, provider, note, status, genotype, coordinateDetails) => {
+    setAreaDelimitation: async (context, user_id, name, provider, note, status, genotype, coordinateDetails, created_at, dateOfPlanting) => {
         try {
             let rand = `${Date.now().toString().substr(7, 6)}${Math.floor(Math.random() * (99 - 10) + 10)}`;
             let areaDelimitation_id = `a${rand}`;
 
-            await setAreaDelimitation(context, areaDelimitation_id, user_id, name, provider, note, status, genotype);
+            await setAreaDelimitation(context, areaDelimitation_id, user_id, name, provider, note, status, genotype, created_at, dateOfPlanting);
 
             let details = [];
 

@@ -33,10 +33,10 @@ const areaDelimitationDB = {
             );
         });
     },
-    setAreaDelimitation: (context, id, user_id, name, provider, note, status, genotype) => {
+    setAreaDelimitation: (context, id, user_id, name, provider, note, status, genotype, created_at, dateOfPlanting) => {
         let sql = `
-            insert area_delimitation(id, user_id, \`status\`, genotype, name, provider, note)
-            values ('${id}', ${user_id}, ${status}, '${genotype}', '${name}', '${provider}', '${note}')
+            insert area_delimitation(id, user_id, \`status\`, genotype, name, provider, note, created_at, dateOfPlanting)
+            values ('${id}', ${user_id}, ${status}, '${genotype}', '${name}', '${provider}', '${note}', '${created_at}', '${dateOfPlanting}')
         `;
         context.log(sql)
         return new Promise((resolve, reject) => {

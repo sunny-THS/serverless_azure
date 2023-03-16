@@ -188,11 +188,11 @@ const handle = {
         context.log('======= setAreaDelimitation =======');
 
         const {
-            user_id, status, genotype, coordinateDetails, name, provider, note
+            user_id, status, genotype, coordinateDetails, name, provider, note, create_at, dateOfPlanting
         } = req.body;
 
         try {
-            await setAreaDelimitation(context, user_id, name, provider, note, status, genotype, coordinateDetails);
+            await setAreaDelimitation(context, user_id, name, provider, note, status, genotype, coordinateDetails, create_at, dateOfPlanting);
 
             context.res = {
                 // status: 200, /* Defaults to 200 */
